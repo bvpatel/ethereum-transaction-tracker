@@ -1,0 +1,35 @@
+# Core dependencies
+aiohttp>=3.8.0,<4.0.0
+python-dotenv>=1.0.0
+asyncio-throttle>=1.0.2
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# CLI and utilities
+click>=8.1.0
+rich>=13.0.0
+tqdm>=4.65.0
+
+# Ethereum / blockchain utilities
+web3>=6.0.0  # For advanced Ethereum interactions
+requests>=2.31.0  # Fallback HTTP client
+
+# Testing dependencies
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-mock>=3.11.0
+pytest-cov>=4.1.0
+pytest-xdist>=3.3.0
+
+# Development dependencies
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0
+pre-commit>=3.3.0
+
+# Optional: For enhanced functionality
+python-dateutil>=2.8.2   # Robust datetime parsing (often used with pandas)
+tenacity>=8.2.3          # For retry logic (better than hand-rolled)
+loguru>=0.7.0            # Optional, for nicer logging than stdlib
