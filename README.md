@@ -34,7 +34,7 @@ A comprehensive, production-ready tool for tracking and exporting Ethereum walle
 
 ### 1. Installation
 ```bash
-git clone https://github.com/yourusername/ethereum-transaction-tracker
+git clone https://github.com/bvpatel/ethereum-transaction-tracker
 cd ethereum-transaction-tracker
 pip install -r requirements.txt
 ```
