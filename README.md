@@ -121,15 +121,10 @@ The exported CSV includes these fields for comprehensive transaction tracking:
 ### Run Tests
 ```bash
 # All tests
-pytest
+python3 -m pytest
 
 # With coverage
-pytest --cov=src --cov-report=html
-
-# Specific test categories
-pytest tests/test_api/           # API tests
-pytest tests/test_integration/   # Integration tests
-pytest tests/test_performance/   # Performance tests
+python3 -m pytest --cov=src --cov-report=html
 ```
 
 ### Test Categories
@@ -172,6 +167,5 @@ pytest tests/test_performance/   # Performance tests
 
 ### Development Setup
 ```bash
-pip install -e ".[dev,test]"
-pre-commit install
+python3 -m pip install -e ".[dev,test]"
 ```
