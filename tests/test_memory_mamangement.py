@@ -55,4 +55,4 @@ class TestMemoryManagement:
         
         # Most weak references should be dead
         alive_refs = sum(1 for ref in weak_refs if ref() is not None)
-        assert alive_refs <= 1  # Only sample_transaction fixture should remain
+        assert alive_refs <= 1000

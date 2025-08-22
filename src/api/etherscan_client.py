@@ -1,7 +1,7 @@
 import logging
 from typing import List, Dict, Any, Optional
 from datetime import datetime
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from .base_client import BaseAPIClient
 from ..models.transaction import Transaction, TokenTransfer, InternalTransaction
 from ..models.enums import TransactionType, TransactionStatus
@@ -53,6 +53,7 @@ class EtherscanClient(BaseAPIClient):
             
         except Exception as e:
             logger.error(f"Error fetching normal transactions: {e}")
+            return []
 
     async def get_internal_transactions(self, address: str, start_block: int = 0,
                                       end_block: int = 99999999, page: int = 1,
@@ -83,6 +84,7 @@ class EtherscanClient(BaseAPIClient):
             
         except Exception as e:
             logger.warning(f"Error fetching internal transactions: {e}")
+            return []
 
     async def get_token_transfers(self, address: str, contract_address: str = None,
                                 start_block: int = 0, end_block: int = 99999999,
@@ -128,7 +130,7 @@ class EtherscanClient(BaseAPIClient):
                 timestamp=datetime.fromtimestamp(int(tx_data['timeStamp'])),
                 from_address=tx_data['from'],
                 to_address=tx_data['to'] or '',
-                value = Decimal(tx_data.get("value", "0") or "0") / (Decimal(10) ** 18),
+                value = Decimal(tx_data.get("value", "0") or "0") / Decimal(10) ** 18,
                 gas_used=int(tx_data['gasUsed']),
                 gas_price=Decimal(tx_data['gasPrice']),
                 transaction_fee=Decimal(tx_data['gasUsed']) * Decimal(tx_data['gasPrice']),
@@ -150,7 +152,7 @@ class EtherscanClient(BaseAPIClient):
                 hash=tx_data['hash'],
                 from_address=tx_data['from'],
                 to_address=tx_data['to'],
-                value=Decimal(tx_data['value']) / Decimal('10**18'),
+                value=Decimal(tx_data['value']) / Decimal(10) ** 18,
                 gas_used=int(tx_data.get('gas', 0)),
                 block_number=int(tx_data['blockNumber']),
                 timestamp=datetime.fromtimestamp(int(tx_data['timeStamp'])),
@@ -166,10 +168,18 @@ class EtherscanClient(BaseAPIClient):
         """Parse token transfer data from Etherscan"""
         try:
             decimals = int(transfer_data.get('tokenDecimal', 0))
-            value = Decimal(transfer_data['value'])
             
+            # Parse value with error handling
+            try:
+                value = Decimal(str(transfer_data['value']))
+            except (ValueError, TypeError, InvalidOperation):
+                logger.warning(f"Invalid value in token transfer: {transfer_data.get('value')}")
+                return None
+            
+            # Apply decimal adjustment if needed
             if decimals > 0:
-                value = value / Decimal(f'10**{decimals}')
+                divisor = Decimal(10) ** decimals
+                value = value / divisor
             
             return TokenTransfer(
                 contract_address=transfer_data['contractAddress'],

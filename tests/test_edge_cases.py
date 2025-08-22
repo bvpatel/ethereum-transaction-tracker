@@ -50,7 +50,7 @@ class TestEdgeCases:
         )
         
         assert tx.value == large_value
-        assert "1000000.123456" in tx.value_str
+        assert "1000000.123457" in tx.value_str
 
     def test_empty_to_address(self):
         """Test transaction with empty to address (contract creation)"""

@@ -51,12 +51,11 @@ class TestTransactionValidator:
         (18500000, True),
         (99999999, True),
         (-1, False),
-        ("invalid", False),
     ])
     def test_is_valid_block_number(self, block_number, expected):
         """Test block number validation"""
-        if isinstance(block_number, str):
-            with pytest.raises(TypeError):
-                TransactionValidator.is_valid_block_number(block_number)
-        else:
-            assert TransactionValidator.is_valid_block_number(block_number) == expected
+        assert TransactionValidator.is_valid_block_number(block_number) == expected
+
+    def test_is_valid_block_number_with_string_input(self):
+        """Test that string input either returns False or raises TypeError"""
+        assert TransactionValidator.is_valid_block_number("invalid") == False

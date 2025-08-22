@@ -69,7 +69,7 @@ async def test_get_normal_transactions_handles_exception(client, caplog):
     client._make_request = AsyncMock(side_effect=Exception("network error"))
     caplog.set_level(logging.ERROR)
     result = await client.get_normal_transactions("0xabc")
-    assert result is None
+    assert result == []
     assert "Error fetching normal transactions" in caplog.text
 
 
@@ -127,7 +127,7 @@ async def test_get_internal_transactions_handles_exception(client, caplog):
     client._make_request = AsyncMock(side_effect=Exception("timeout"))
     caplog.set_level(logging.WARNING)
     result = await client.get_internal_transactions("0xaaa")
-    assert result is None
+    assert result == []
     assert "Error fetching internal transactions" in caplog.text
 
 

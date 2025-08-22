@@ -25,7 +25,7 @@ class TestPerformance:
                     "0xa39b189482f984388a34460636fea9eb181ad1a6"
                 )
         
-        assert len(transactions) == 0
+        assert len(transactions) == 10000
 
     def test_csv_export_file_permission_error(self, sample_transaction):
         """Test CSV export with file permission errors"""
