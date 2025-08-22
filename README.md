@@ -57,7 +57,7 @@ python3 -m src.main 0xa39b189482f984388a34460636fea9eb181ad1a6 \
   --start-block 18000000
 
 # Batch processing
-python3 -m src.main --batch-file addresses.txt
+python3 -m src.main --batch-file addresses.txt address
 ```
 
 ## API Support
